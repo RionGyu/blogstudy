@@ -8,7 +8,7 @@ import BoardWrite from 'views/Board/Write';
 import BoardUpdate from 'views/Board/Update';
 import Container from 'layouts/Container';
 import { AUTH_PATH, BOARD_DETAIL_PATH, BOARD_PATH, BOARD_UPDATE_PATH, BOARD_WRITE_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH } from 'constant';
-
+import './App.css';
 // import BoardItem from 'components/BoardItem';
 // import { commentListMock, favoriteListMock, latestBoardListMock, top3BoardListMock } from 'mocks';
 // import Top3Item from 'components/Top3Item';
@@ -16,6 +16,9 @@ import { AUTH_PATH, BOARD_DETAIL_PATH, BOARD_PATH, BOARD_UPDATE_PATH, BOARD_WRIT
 // import FavoriteItem from 'components/FavoriteItem';
 // import InputBox from 'components/InputBox';
 //                    component: Application 컴포넌트         //
+
+
+
 
 export function App() {
   //  const [value, setValue] = useState<string>('');
