@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { create } from 'zustand';
 
 interface BoardStore {
