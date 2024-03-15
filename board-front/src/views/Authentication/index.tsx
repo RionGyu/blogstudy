@@ -10,6 +10,33 @@ export default function Authentication() {
   //        component: 인증 화면 컴포넌트         //
   const SignInCard = () => {
 
+    //        state: 이메일 상태                      //
+    const [email, setEmail] = useState<string>('');
+
+    //        state: 패스워드 상태                      //
+    const [password, setPassword] = useState<string>('');
+
+    //        state: 패스워드 타입 상태                      //
+    const [passwordType, setPasswordType] = useState<'text' | 'password'>('password');
+
+    //        state: 패스워드 버튼 아이콘 상태                      //
+    const [passwordButtonIcon, setPasswordButtonIcon] = useState<'eye-light-off-icon' | 'eye-light-on-icon'>('eye-light-off-icon');
+
+    //        state: 에러 상태                          //
+    const [error, setError] = useState<boolean>(false);
+
+    //      event handler: 패스워드 버튼 클릭 이벤트 처리함수    //
+    const onPassWordButtonClickHandler = () => {
+      if (passwordType === 'text') {
+        setPasswordType('password');
+        setPasswordButtonIcon('eye-light-off-icon');
+      }
+      else{
+        setPasswordType('text');
+        setPasswordButtonIcon('eye-light-on-icon');
+      }
+    };
+
     //        render: SignInCard 컴포넌트 렌더링        //
     return(
       <div className='auth-card'>
@@ -19,8 +46,8 @@ export default function Authentication() {
               <div className='auth-card-title'>{'로그인'}</div>
             </div>
           </div>
-          <InputBox />
-          <InputBox />
+          <InputBox label='이메일 주소' type='text' placeholder='이메일 주소를 입력해주세요.' error={error} value={email} setValue={setEmail} onKeyDown={} />
+          <InputBox label='패스워드' type='password' placeholder='비밀번호를 입력해주세요.' error={error} value={password} setValue={setPassword} icon={passwordButtonIcon} onButtonClick={} onKeyDown={} />
         </div>
         <div className='auth-card-bottom'>
           <div className='auth-sign-in-error-box'>
