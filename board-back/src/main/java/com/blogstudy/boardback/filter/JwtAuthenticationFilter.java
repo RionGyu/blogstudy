@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.blogstudy.boardback.provider.JwtProvider;
+import com.blogstudy.boardback.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     
-    // private final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
     @Override
@@ -40,14 +41,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
     
             }
-    
+            
             String email = jwtProvider.validate(token);
     
             if(email == null ){
                 filterChain.doFilter(request, response);
                 return;
             }
-    
+             System.out.println("실행여부");
             AbstractAuthenticationToken authenticationToken = 
                 new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

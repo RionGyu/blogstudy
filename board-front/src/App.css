@@ -35,6 +35,15 @@
   align-items: center;
 
   background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+  cursor: pointer;
+}
+
+.black-large-full-button:hover {
+  background-color: rgba(0, 0, 0, 0.85)
 }
 
 .disable-button {

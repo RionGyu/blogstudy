@@ -5,10 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.blogstudy.boardback.dto.request.auth.SignInRequestDto;
 import com.blogstudy.boardback.dto.request.auth.SignUpRequestDto;
 import com.blogstudy.boardback.dto.response.ResponseDto;
+import com.blogstudy.boardback.dto.response.auth.SignInResponseDto;
 import com.blogstudy.boardback.dto.response.auth.SignUpResponseDto;
 import com.blogstudy.boardback.entity.UserEntity;
+import com.blogstudy.boardback.provider.JwtProvider;
 import com.blogstudy.boardback.repository.UserRepository;
 import com.blogstudy.boardback.service.AuthService;
 
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImplement implements AuthService {
     
     private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -52,5 +56,34 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return SignUpResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+        
+        String token = null;
+
+        try {
+            System.out.println("실행여부서비스");
+            String email = dto.getEmail();
+            System.out.println("email="+email);
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return SignInResponseDto.signInFail();
+
+            String password = dto.getPassword();
+            System.out.println("password="+password);
+            String encodedPassword = userEntity.getPassword();
+            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
+            System.out.println("isMatched="+isMatched);
+            if (!isMatched) return SignInResponseDto.signInFail();
+
+            token = jwtProvider.create(email);
+            System.out.println("token="+token);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return SignInResponseDto.success(token);
     }
 }

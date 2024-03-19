@@ -2,7 +2,7 @@
     padding: 100px 0px 150px;
     min-width: 1440px;
     height: calc(100vh - 68px - 100px);
-    min-height: 560px;
+    /* min-height: 560px; */
 
     display: flex;
     justify-content: center;
@@ -61,6 +61,7 @@
     font-weight: 400;
     line-height: 140%;
     letter-spacing: -1.2px;
+    text-align: center;
 }
 
 .auth-card {
@@ -122,4 +123,18 @@
  .auth-description-box {
     display: flex;
     justify-content: center;
+ }
+
+ .auth-decription {
+    color: rgba(0, 0, 0, 0.7);
+
+    font-size: 14px;
+    font-weight:400;
+    line-height: 140%;
+ }
+
+ .auth-description-link {
+    color: rgba(0, 0, 0, 1);
+    cursor: pointer;
+    font-weight: 600;
  }

@@ -1,6 +1,13 @@
-import React, { useState, KeyboardEvent, useRef } from 'react';
+import React, { useState, KeyboardEvent, useRef, ChangeEvent } from 'react';
 import './style.css';
 import InputBox from 'components/InputBox';
+import { SignInRequestDto } from 'apis/request/auth';
+import { signInRequest } from 'apis';
+import { SignInResponseDto } from 'apis/response/auth';
+import { ResponseDto } from 'apis/response';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import { MAIN_PATH } from 'constant';
 
 //        component: 인증 화면 컴포넌트         //
 export default function Authentication() {
@@ -8,7 +15,13 @@ export default function Authentication() {
   //        state: 화면상태                      //
   const [view, setView] = useState<'sign-in' | 'sign-up'>('sign-in');
 
-  //        component: 인증 화면 컴포넌트         //
+  //        state: 쿠키상태                      //      
+  const [cookies, setCookie] = useCookies();
+
+  //        function: 네비게이트 함수                      //      
+  const navigator = useNavigate();
+
+  //        component: SignInCard 컴포넌트         //
   const SignInCard = () => {
 
     //        state: 이메일 요소 참조 상태                      //
@@ -32,9 +45,43 @@ export default function Authentication() {
     //        state: 에러 상태                          //
     const [error, setError] = useState<boolean>(false);
 
+    //      function: sign in response 처리함수               //
+    const signInResponse = (responseBody: SignInResponseDto | ResponseDto | null) => {
+      if (!responseBody) {
+        alert('네트워크 이상입니다.');
+        return;
+      }
+      const { code } = responseBody;
+      if (code === 'DBE') alert('데이터베이스 오류입니다.');
+      if (code === 'SF' || code === 'VF') setError(true);
+      if (code !== 'SU' ) return;  
+
+      const {token, expirationTime } = responseBody as SignInResponseDto;
+      const now = new Date().getTime();
+      const expires = new Date(now + expirationTime * 1000);
+
+      setCookie('accessToken', token, { expires, path: MAIN_PATH() });
+      navigator(MAIN_PATH());
+    }
+
+    //      event handler: 이메일 변경 이벤트 처리함수    // 
+    const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      setError(false);
+      const { value } = event.target;
+      setEmail(value);
+    }
+
+     //      event handler: 비밀번호 변경 이벤트 처리함수    //
+     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      setError(false);
+      const { value } = event.target;
+      setPassword(value);
+    }
+
     //      event handler: 로그인 버튼 클릭 이벤트 처리함수    //
-    const onSignInButtonClickHandler = () => {
-      
+    const onSignInButtonClickHandler = () => { 
+      const requestBody: SignInRequestDto = { email, password};
+      signInRequest(requestBody).then(signInResponse);
     };
     //      event handler: 회원가입 버튼 클릭 이벤트 처리함수    //
     const onSignUpLickClickHandler = () => {
@@ -77,21 +124,23 @@ export default function Authentication() {
             <div className='auth-card-title-box'>
               <div className='auth-card-title'>{'로그인'}</div>
             </div>
-             <InputBox ref={emailRef} label='이메일 주소' type='text' placeholder='이메일 주소를 입력해주세요.' error={error} value={email} setValue={setEmail} onKeyDown={onEmailKeyDownHandler} />
-             <InputBox ref={passwordRef} label='패스워드' type={passwordType} placeholder='비밀번호를 입력해주세요.' error={error} value={password} setValue={setPassword} icon={passwordButtonIcon} onButtonClick={onPasswordButtonClickHandler} onKeyDown={onPasswordKeyDownHandler} />
+            <InputBox ref={emailRef} label='이메일 주소' type='text' placeholder='이메일 주소를 입력해주세요.' error={error} value={email} onChange={onEmailChangeHandler} onKeyDown={onEmailKeyDownHandler}/>
+            <InputBox ref={passwordRef} label='패스워드' type={passwordType} placeholder='비밀번호를 입력해주세요.' error={error} value={password} onChange={onPasswordChangeHandler} icon={passwordButtonIcon} onButtonClick={onPasswordButtonClickHandler} onKeyDown={onPasswordKeyDownHandler}/>
           </div>
-        <div className='auth-card-bottom'>
-          <div className='auth-sign-in-error-box'>
-            <div className='auth-sign-in-error-message'>
+          <div className='auth-card-bottom'>
+            {error && <div className='auth-sign-in-error-box'>
+              <div className='auth-sign-in-error-message'>
               {'이메일 주소 또는 비밀번호를 잘못 입력했습니다.\n입력하신 내용을 다시 확인해주세요.'}
+              </div>
+            </div>
+            }
+            
+            <div className='black-large-full-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
+            <div className='auth-description-box'>
+              <div className='auth-description'>{'신규 사용자이신가요?'}<span className='auth-description-link' onClick={onSignUpLickClickHandler}>{'회원가입'}</span></div>
             </div>
           </div>
-          <div className='black-large-full-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
-          <div className='auth-description-box'>
-            <div className='auth-description'>{'신규 사용자이신가요?'}<span className='auth-description-link' onClick={onSignUpLickClickHandler}>{'회원가입'}</span></div>
-          </div>
-        </div></div>
-        
+        </div>
       </div>
     )
   };
