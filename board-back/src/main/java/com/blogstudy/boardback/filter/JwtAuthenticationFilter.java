@@ -1,10 +1,14 @@
 package com.blogstudy.boardback.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -12,9 +16,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.blogstudy.boardback.entity.UserEntity;
 import com.blogstudy.boardback.provider.JwtProvider;
 import com.blogstudy.boardback.repository.UserRepository;
 
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,42 +54,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
+
+            UserEntity userEntity = userRepository.findByEmail(email);
+            String role = userEntity.getRole(); // role : ROLE_USER, ROLE_ADMIN
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(role));
              System.out.println("실행여부");
-            AbstractAuthenticationToken authenticationToken = 
-                new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // 웹 인증 정보 소스
-    
+
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+            AbstractAuthenticationToken authenticationToken = 
+                new UsernamePasswordAuthenticationToken(email, null, authorities);
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+
             securityContext.setAuthentication(authenticationToken);
     
             SecurityContextHolder.setContext(securityContext);
+            
+            
+            // 웹 인증 정보 소스
+    
+            
         }
 
         catch(Exception exception){
             exception.printStackTrace();
         }
-           filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);
             
-        //     if(token == null){
-        //         filterChain.doFilter(request, response);
-        //         return;
-        //     }
-
-        //     String userId = jwtProvider.validate(token);
-        //     if (userId == null){
-        //         filterChain.doFilter(request, response);
-        //         return;
-        //     }
-
-        //     UserEntity userEntity = userRepository.findByUserId(userId);
-        //     String role = userEntity.getRole();
-
-        // } catch (Exception exception){
-        //     exception.printStackTrace();
-        // }
-        
-        // filterChain.doFilter(request, response);
 
     }
 

@@ -43,8 +43,8 @@ public class WebSecurityConfig {
             .csrf(CsrfConfigurer::disable)
             .httpBasic(HttpBasicConfigurer::disable)
             .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            )
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )//어떤 요청에 대해서 인증을 거치게 할것인지에 대한 여부
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/", "/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/user/**").hasRole("USER")
@@ -71,7 +71,7 @@ public class WebSecurityConfig {
         // configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         // configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration("/api/v1/**", corsConfiguration);
 
         // source.registerCorsConfiguration("/api/v2", corsConfiguration);
         // source.registerCorsConfiguration("/api/v1", corsConfiguration);
