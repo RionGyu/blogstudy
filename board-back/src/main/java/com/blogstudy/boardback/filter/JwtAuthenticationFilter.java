@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(role));
-             System.out.println("실행여부");
+            
 
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
             AbstractAuthenticationToken authenticationToken = 

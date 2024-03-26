@@ -27,7 +27,7 @@ public class JwtProvider {
             .signWith(key, SignatureAlgorithm.HS256)
             .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate)
             .compact();
-        System.out.println("jwt="+jwt);
+        
         return jwt;    
     }
 
