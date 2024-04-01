@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Search from 'views/Search';
-import Authentication from 'views/Authentication';
+import Authentication from 'views/Search';
 import Main from 'views/Main';
 import User from 'views/User';
 import BoardDetail from 'views/Board/Detail';
