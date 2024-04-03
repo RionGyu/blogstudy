@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, useRef, ChangeEvent } from 'react';
+import React, { useState, KeyboardEvent, useRef, ChangeEvent, useEffect } from 'react';
 import './style.css';
 import InputBox from 'components/InputBox';
 import { SignInRequestDto, SignUpRequestDto } from 'apis/request/auth';
@@ -163,7 +163,7 @@ export default function Authentication() {
     //        state: 주소 요소 참조 상태       //
     const addressDetailRef = useRef<HTMLInputElement | null>(null);
     //        state: 페이지 번호 상태            //
-    const [page, setPage] = useState<1 | 2>(2);
+    const [page, setPage] = useState<1 | 2>(1);
 
     //        state: 이메일 상태              //
     const [email, setEmail] = useState<string>('');
@@ -419,7 +419,7 @@ export default function Authentication() {
       if (event.key !== 'Enter') return;
       if (!nicknameRef.current) return;
       onNextButtonClickHandler();
-      nicknameRef.current.focus();
+      //nicknameRef.current.focus();
     }
     //        event handler: 닉네임 키 다운 이벤트 처리  //
     const onNicknameKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -449,10 +449,18 @@ export default function Authentication() {
     const onComplete = (data: Address) => {
       const { address } = data;
       setAddress(address);
+      setAddressError(false);
+      setAddressErrorMessage('');
       if (!addressDetailRef.current) return;
       addressDetailRef.current.focus();
     }
  
+    useEffect(() => {
+      if (page === 2) {
+        if (!nicknameRef.current) return;
+        nicknameRef.current.focus();
+      }
+    }, [page])
     
     //        render: SignUpCard 컴포넌트    렌더링     //
     return(

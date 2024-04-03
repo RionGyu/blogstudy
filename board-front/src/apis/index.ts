@@ -24,7 +24,6 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 }
 
 export const signUpRequest = async (requestBody: SignUpRequestDto) => {
-    // signUpRequest 구현 필요
     const result = await axios.post(SIGN_UP_URL(), requestBody)
     .then(response => {
         const responseBody: SignUpResponseDto = response.data;
