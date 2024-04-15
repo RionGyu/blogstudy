@@ -9,6 +9,9 @@ import BoardUpdate from 'views/Board/Update';
 import Container from 'layouts/Container';
 import { AUTH_PATH, BOARD_DETAIL_PATH, BOARD_PATH, BOARD_UPDATE_PATH, BOARD_WRITE_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH } from 'constant';
 import './App.css';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useLoginUserStore } from 'stores';
 // import BoardItem from 'components/BoardItem';
 // import { commentListMock, favoriteListMock, latestBoardListMock, top3BoardListMock } from 'mocks';
 // import Top3Item from 'components/Top3Item';
@@ -20,7 +23,19 @@ import './App.css';
 
 
 
-export function App() {
+function App() {
+
+  //            state: 로그인 유저 전역 상태       //
+  const { setLoginUser, resetLoginUser} = useLoginUserStore();
+
+  //            state: cookie 상태                 //
+  const [cookies, setCookie ] = useCookies();
+  //            effect: accessToekn cookie 값이 변경될때마다 실행할 함수   //
+  useEffect(() => {
+    if (!cookies.accessToekn){
+
+    }
+  }, [cookies.accessToekn]);
   //  const [value, setValue] = useState<string>('');
   //                    render: Application 렌더링        //
   //   description: 메인화면 :  '/' - Main  //
