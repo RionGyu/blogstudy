@@ -44,7 +44,7 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
 
 const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
 
-const getSignInUserRequest = async (accessToken: string) => {
+export const getSignInUserRequest = async (accessToken: string) => {
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
