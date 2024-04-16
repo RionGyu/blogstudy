@@ -114,13 +114,14 @@ const MyPageButton = () => {
     navigate(USER_PATH(email));
   };
 
-   //     event handler: 마이페이지 버튼 클릭 이벤트 처리 함수 //
+   //     event handler: 로그아웃 버튼 클릭 이벤트 처리 함수 //
    const onSignOutButtonClickHandler = () => {
     resetLoginUser();
+    setCookie('accessToken', '', { path: MAIN_PATH(), expires:new Date() });
     navigate(MAIN_PATH());
   };
 
-  //     event handler: 마이페이지 버튼 클릭 이벤트 처리 함수 //
+  //     event handler: 로그인 버튼 클릭 이벤트 처리 함수 //
   const onSignInButtonClickHandler = () => {
     navigate(AUTH_PATH());
   };
@@ -129,8 +130,8 @@ const MyPageButton = () => {
   if(isLogin && userEmail === loginUser?.email)
   return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'} </div>
 
-  if (isLogin)
   //        render: 마이페이지 버튼 컴포넌트  렌더링 //
+  if (isLogin)  
   return <div className='white-button' onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>
 
   
@@ -172,6 +173,12 @@ useEffect(() => {
   const isUserPage = pathname.startsWith(USER_PATH(''));
   setUserPage(isUserPage);
 },[pathname]);
+
+//        effect: login user가  변경될때 마다 실행될 함수        //
+useEffect(()=> {
+  setLogin(loginUser !== null);
+  console.log(loginUser);
+}, [loginUser]);
 //        render: 헤더 레이아웃  렌더링 //
   return (
     <div id='header'>
