@@ -37,8 +37,5 @@ public class UserEntity {
         this.agreedPersonal = dto.getAgreedPersonal();
     }
 
-    public String getRole() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRole'");
-    }
+    
 }

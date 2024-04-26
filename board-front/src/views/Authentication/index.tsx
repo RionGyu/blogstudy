@@ -82,6 +82,7 @@ export default function Authentication() {
     //      event handler: 로그인 버튼 클릭 이벤트 처리함수    //
     const onSignInButtonClickHandler = () => { 
       const requestBody: SignInRequestDto = { email, password};
+      console.log(requestBody);
       signInRequest(requestBody).then(signInResponse);
     };
     //      event handler: 회원가입 버튼 클릭 이벤트 처리함수    //

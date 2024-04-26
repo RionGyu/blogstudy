@@ -25,6 +25,7 @@ public class GetSignInUserResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<GetSignInUserResponseDto> success(UserEntity userEntity) {
+        System.out.println("돌고있는거임?");
         GetSignInUserResponseDto result = new GetSignInUserResponseDto(userEntity);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

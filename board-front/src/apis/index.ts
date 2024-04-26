@@ -18,6 +18,7 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     const result = await axios.post(SIGN_IN_URL(), requestBody)
         .then(response => {
             const responseBody: SignInResponseDto = response.data;
+            console.log("responseBody"+response.data);
             return responseBody;
         })
         .catch(error => {
@@ -45,6 +46,7 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
 const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
 
 export const getSignInUserRequest = async (accessToken: string) => {
+    console.log(authorization(accessToken));
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
