@@ -38,7 +38,6 @@ public class AuthController {
     public ResponseEntity<? super SignInResponseDto> signIn(
         @RequestBody @Valid SignInRequestDto requestBody
         ) {
-            System.out.println("리퀘스트authService.signIn(requestBody)="+authService.signIn(requestBody));
             ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
             
         return response;

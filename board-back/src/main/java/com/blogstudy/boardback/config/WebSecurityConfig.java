@@ -46,6 +46,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )//어떤 요청에 대해서 인증을 거치게 할것인지에 대한 여부
             .authorizeHttpRequests(request -> request
+                .requestMatchers("/", "/**").permitAll()
                 .requestMatchers("/", "/api/v1/auth/**").permitAll()
                 .requestMatchers("/", "/api/v1/user/**").permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")

@@ -34,6 +34,8 @@ public class FileController {
         @PathVariable("fileName") String fileName
     ) {
         Resource resource = fileService.getImage(fileName);
+         
+        
         return resource;
     }
 }

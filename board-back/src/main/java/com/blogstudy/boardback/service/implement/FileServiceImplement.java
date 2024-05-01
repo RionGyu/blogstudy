@@ -21,9 +21,9 @@ public class FileServiceImplement implements FileService {
     
     @Override
     public String upload(MultipartFile file) {
-
+        
         if (file.isEmpty()) return null;
-
+       
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String uuid = UUID.randomUUID().toString();
@@ -46,7 +46,8 @@ public class FileServiceImplement implements FileService {
         Resource resource = null;
 
         try {
-            resource = new UrlResource("file" + filePath + fileName);
+           
+            resource = new UrlResource("file:" + filePath + fileName);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
