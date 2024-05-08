@@ -42,7 +42,16 @@ useEffect(() => {
           </div>
           <div className='board-write-images-box'>
             <div className='board-write-image-box'>
-              <img className='board-write-image'  />
+              <img className='board-write-image' src='https://www.francezone.com/xe/files/attach/images/131/893/299/002/54e5f960ec73448cfacd6fe383c56d10.jpg' />
+              <div className='icon-button image-close'>
+                <div className='icon close-icon'></div>
+              </div>
+            </div>
+          </div>
+
+          <div className='board-write-images-box'>
+            <div className='board-write-image-box'>
+              <img className='board-write-image' src='https://cdn.epnc.co.kr/news/photo/202001/93682_85075_3859.jpg' />
               <div className='icon-button image-close'>
                 <div className='icon close-icon'></div>
               </div>
