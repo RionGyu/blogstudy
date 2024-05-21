@@ -13,7 +13,7 @@ import lombok.Getter;
 public class PostBoardResponseDto extends ResponseDto {
     
     private PostBoardResponseDto(){
-        super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS)
+        super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 
     public static ResponseEntity<PostBoardResponseDto> success() {
