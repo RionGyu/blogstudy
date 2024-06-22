@@ -86,7 +86,7 @@ const [ cookies, setCookies] = useCookies();
     setBoardImageFileList(newboardImageFileList);
   }
  
-//        effect: 마운트 실 실행할 함수             //
+//        effect: 마운트 실행할 함수             //
   useEffect(() => {
     const accessToken = cookies.accessToken;
     if (!accessToken) {
